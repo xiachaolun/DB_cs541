@@ -11,6 +11,7 @@ public class Strategy {
 	int index;
 
 	Strategy() {
+		//
 		index = 0;
 
 		maxInt = new Vector<Integer>();
