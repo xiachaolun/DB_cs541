@@ -164,7 +164,7 @@ public class EntryPoint {
 			}
 			// dbp.clearAllTables(tableNames, stmt);
 			// minimize the number of effective tuples
-			solution = dbp.minimizeSolution(solution);
+			solution = dbp.minimizeSolution(solution, stmt);
 			for (Vector<String> inserts : solution) {
 				for (String insert : inserts) {
 					stmt.executeUpdate(insert);

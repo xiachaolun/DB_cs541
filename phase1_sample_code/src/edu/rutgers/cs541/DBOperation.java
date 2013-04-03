@@ -100,12 +100,15 @@ public class DBOperation {
 	}
 
 	public Vector<Vector<String>> minimizeSolution(
-			Vector<Vector<String>> solution) {
+			Vector<Vector<String>> solution, Statement stmt) {
 		Vector<Vector<String>> res = new Vector<Vector<String>>();
 		return res;
 	}
-	
-	
+
+	public Vector<String> minimizeSingleTable(Vector<String> tuples,
+			Statement stmt) {
+		return tuples;
+	}
 
 	public static void main(String[] args) {
 	}
