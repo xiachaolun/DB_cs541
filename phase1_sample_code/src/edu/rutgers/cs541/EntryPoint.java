@@ -166,11 +166,11 @@ public class EntryPoint {
 			// minimize the number of effective tuples
 			solution = dbp.minimizeSolution(solution, tableNames, stmt, query1,
 					query2);
-			for (Vector<String> inserts : solution) {
-				for (String insert : inserts) {
-					stmt.executeUpdate(insert);
-				}
-			}
+			// for (Vector<String> inserts : solution) {
+			// for (String insert : inserts) {
+			// stmt.executeUpdate(insert);
+			// }
+			// }
 			// use the user-supplied directory (last command line argument)
 			String outPath = new File(args[3], "1.sql").getPath();
 			try {

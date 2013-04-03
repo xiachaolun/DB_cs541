@@ -134,7 +134,10 @@ public class DBOperation {
 			if (check(subTuples, table, stmt, query1, query2)) {
 				return subTuples;
 			}
-			int start = last.elementAt(last.size() - 1);
+			int start = -1;
+			if (h > 0) {
+				start = last.elementAt(last.size() - 1);
+			}
 			for (int i = start + 1; i < tuples.size(); i++) {
 				Vector<Integer> v = new Vector<Integer>();
 				for (Integer j : q.elementAt(h)) {
@@ -144,6 +147,7 @@ public class DBOperation {
 				q.add(v);
 			}
 			h++;
+			Debug.out(h);
 		}
 		return tuples;
 	}
