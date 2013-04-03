@@ -172,6 +172,14 @@ public class EntryPoint {
 			// }
 			// }
 			// use the user-supplied directory (last command line argument)
+			for (String table : tableNames) {
+				Debug.out(table);
+				ResultSet rs = stmt.executeQuery("select count(*) from "
+						+ table);
+				while (rs.next()) {
+					Debug.out(rs.getString(0));
+				}
+			}
 			String outPath = new File(args[3], "1.sql").getPath();
 			try {
 				// Use another handy H2 command to save the instance

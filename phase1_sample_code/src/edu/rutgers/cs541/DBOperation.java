@@ -133,7 +133,7 @@ public class DBOperation {
 				subTuples.add(tuples.elementAt(i));
 			}
 			if (check(subTuples, table, stmt, query1, query2)) {
-				return subTuples;
+				// return subTuples;
 			}
 			int start = -1;
 			if (h >= 0) {
@@ -148,7 +148,7 @@ public class DBOperation {
 				q.add(v);
 			}
 			h++;
-			Debug.out(h);
+			// Debug.out(h);
 		}
 		return tuples;
 	}
