@@ -118,7 +118,8 @@ public class DBOperation {
 	public Vector<String> minimizeSingleTable(Vector<String> tuples,
 			String table, Statement stmt, String query1, String query2) {
 		Vector<Vector<Integer>> q = new Vector<Vector<Integer>>();
-		q.add(new Vector<Integer>());
+		// whether to judge empty set works
+		// q.add(new Vector<Integer>());
 		for (int i = 0; i < tuples.size(); i++) {
 			Vector<Integer> v = new Vector<Integer>();
 			v.add(i);
@@ -135,7 +136,7 @@ public class DBOperation {
 				return subTuples;
 			}
 			int start = -1;
-			if (h > 0) {
+			if (h >= 0) {
 				start = last.elementAt(last.size() - 1);
 			}
 			for (int i = start + 1; i < tuples.size(); i++) {
