@@ -79,34 +79,39 @@ public class DBOperation {
 		return insertSb;
 	}
 
-	public StringBuilder deleteAllTuples(String table) {
+	private StringBuilder generateDeleteStatement(String table) {
 		StringBuilder delete = new StringBuilder();
 		delete.append("DELETE FROM ");
 		delete.append(table);
 		return delete;
 	}
 
+	private void deleteAllTuplesFromSingleTable(String table, Statement stmt) {
+		StringBuilder comm = generateDeleteStatement(table);
+		try {
+			stmt.executeUpdate(comm.toString());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void clearAllTables(Vector<String> tables, Statement stmt) {
 		for (String table : tables) {
-			StringBuilder comm = deleteAllTuples(table);
-			try {
-				stmt.executeUpdate(comm.toString());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				Debug.out("table cannot be deleted");
-				// e.printStackTrace();
-			}
+			deleteAllTuplesFromSingleTable(table, stmt);
 		}
 	}
 
 	public Vector<Vector<String>> minimizeSolution(
 			Vector<Vector<String>> solution, Statement stmt) {
+		// we assume in the H2 db, we have the separating tuples
 		Vector<Vector<String>> res = new Vector<Vector<String>>();
 		return res;
 	}
 
 	public Vector<String> minimizeSingleTable(Vector<String> tuples,
-			Statement stmt) {
+			String table, Statement stmt) {
+		
 		return tuples;
 	}
 
