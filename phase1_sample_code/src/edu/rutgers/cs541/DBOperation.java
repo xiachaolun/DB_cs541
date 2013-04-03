@@ -103,16 +103,63 @@ public class DBOperation {
 	}
 
 	public Vector<Vector<String>> minimizeSolution(
-			Vector<Vector<String>> solution, Statement stmt) {
+			Vector<Vector<String>> solution, Vector<String> tables,
+			Statement stmt, String query1, String query2) {
 		// we assume in the H2 db, we have the separating tuples
 		Vector<Vector<String>> res = new Vector<Vector<String>>();
+		for (int i = 0; i < solution.size(); i++) {
+			String table = tables.elementAt(i);
+			res.add(minimizeSingleTable(solution.elementAt(i), table, stmt,
+					query1, query2));
+		}
 		return res;
 	}
 
 	public Vector<String> minimizeSingleTable(Vector<String> tuples,
-			String table, Statement stmt) {
-		
+			String table, Statement stmt, String query1, String query2) {
+		Vector<Vector<Integer>> q = new Vector<Vector<Integer>>();
+		q.add(new Vector<Integer>());
+		for (int i = 0; i < tuples.size(); i++) {
+			Vector<Integer> v = new Vector<Integer>();
+			v.add(i);
+			q.add(v);
+		}
+		int h = 0;
+		while (h < q.size()) {
+			Vector<Integer> last = q.elementAt(h);
+			Vector<String> subTuples = new Vector<String>();
+			for (Integer i : last) {
+				subTuples.add(tuples.elementAt(i));
+			}
+			if (check(subTuples, table, stmt, query1, query2)) {
+				return subTuples;
+			}
+			int start = last.elementAt(last.size() - 1);
+			for (int i = start + 1; i < tuples.size(); i++) {
+				Vector<Integer> v = new Vector<Integer>();
+				for (Integer j : q.elementAt(h)) {
+					v.add(j);
+				}
+				v.add(i);
+				q.add(v);
+			}
+			h++;
+		}
 		return tuples;
+	}
+
+	public boolean check(Vector<String> tuples, String table, Statement stmt,
+			String query1, String query2) {
+		deleteAllTuplesFromSingleTable(table, stmt);
+		for (String insertSb : tuples) {
+			try {
+				stmt.executeUpdate(insertSb);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return QueryComparison.bagCompare(stmt, query1, query2);
 	}
 
 	public static void main(String[] args) {
