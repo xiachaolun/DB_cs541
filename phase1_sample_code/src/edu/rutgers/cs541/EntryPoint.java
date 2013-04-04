@@ -124,7 +124,6 @@ public class EntryPoint {
 			}
 			Vector<Vector<String>> solution = new Vector<Vector<String>>();
 			// tmp vector to store the tuples
-			Vector<String> insertedTuples = new Vector<String>();
 			Strategy strt = new Strategy();
 			while (!QueryComparison.bagCompare(stmt, query1, query2)) {
 				dbp.clearAllTables(tableNames, stmt);
@@ -136,7 +135,7 @@ public class EntryPoint {
 					DBStructure dps = new DBStructure(tableName, stmt);
 					Vector<Integer> dataTypes = dps.getDataTypes();
 					Vector<Boolean> isNullables = dps.getIsNullables();
-					insertedTuples.clear();
+					Vector<String> insertedTuples = new Vector<String>();
 
 					// insert 100 tuples for each table
 					int dt = 0;
@@ -166,6 +165,9 @@ public class EntryPoint {
 			// minimize the number of effective tuples
 			solution = dbp.minimizeSolution(solution, tableNames, stmt, query1,
 					query2);
+			for (Vector<String> subTuples : solution) {
+				Debug.out(subTuples.size());
+			}
 			// for (Vector<String> inserts : solution) {
 			// for (String insert : inserts) {
 			// stmt.executeUpdate(insert);
@@ -174,11 +176,7 @@ public class EntryPoint {
 			// use the user-supplied directory (last command line argument)
 			for (String table : tableNames) {
 				Debug.out(table);
-				ResultSet rs = stmt.executeQuery("select count(*) from "
-						+ table);
-				while (rs.next()) {
-					Debug.out(rs.getString(0));
-				}
+				dbp.printNumberOfTuples(table, stmt);
 			}
 			String outPath = new File(args[3], "1.sql").getPath();
 			try {

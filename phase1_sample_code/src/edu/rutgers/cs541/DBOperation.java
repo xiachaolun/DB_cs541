@@ -1,5 +1,6 @@
 package edu.rutgers.cs541;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
@@ -40,11 +41,11 @@ public class DBOperation {
 				}
 			}
 			if (dataType == Types.INTEGER) {
-				int v = randomGenerator.nextInt(strt.getMaxInt() + 1);
+				int v = randomGenerator.nextInt(strt.getMaxInt());
 				tuple.append(Integer.toString(v));
 			} else if (dataType == Types.DOUBLE) {
 				// double v = (randomGenerator.nextDouble() - 0.5) * intRange;
-				int v = randomGenerator.nextInt(strt.getMaxInt() + 1);
+				int v = randomGenerator.nextInt(strt.getMaxInt());
 				tuple.append(Integer.toString(v));
 			} else if (dataType == Types.VARCHAR) {
 				int len = strt.getMaxLength();
@@ -119,7 +120,7 @@ public class DBOperation {
 			String table, Statement stmt, String query1, String query2) {
 		Vector<Vector<Integer>> q = new Vector<Vector<Integer>>();
 		// whether to judge empty set works
-		// q.add(new Vector<Integer>());
+		q.add(new Vector<Integer>());
 		for (int i = 0; i < tuples.size(); i++) {
 			Vector<Integer> v = new Vector<Integer>();
 			v.add(i);
@@ -133,10 +134,10 @@ public class DBOperation {
 				subTuples.add(tuples.elementAt(i));
 			}
 			if (check(subTuples, table, stmt, query1, query2)) {
-				// return subTuples;
+				return subTuples;
 			}
 			int start = -1;
-			if (h >= 0) {
+			if (h > 0) {
 				start = last.elementAt(last.size() - 1);
 			}
 			for (int i = start + 1; i < tuples.size(); i++) {
@@ -151,6 +152,18 @@ public class DBOperation {
 			// Debug.out(h);
 		}
 		return tuples;
+	}
+
+	public void printNumberOfTuples(String table, Statement stmt) {
+		ResultSet rs;
+		try {
+			rs = stmt.executeQuery("select count(*) from " + table);
+			if (rs.next())
+				Debug.out(rs.getString(1));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public boolean check(Vector<String> tuples, String table, Statement stmt,
