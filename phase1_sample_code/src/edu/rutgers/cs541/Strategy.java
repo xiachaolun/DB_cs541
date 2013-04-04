@@ -16,19 +16,26 @@ public class Strategy {
 		maxInt = new Vector<Integer>();
 		maxInt.add(2);
 		maxInt.add(10);
+		maxInt.add(2);
+		maxInt.add(10);
 		maxInt.add(100);
 
 		maxLength = new Vector<Integer>();
+		maxLength.add(1);
+		maxLength.add(1);
 		maxLength.add(1);
 		maxLength.add(2);
 		maxLength.add(5);
 
 		candidateCharacter = new Vector<String>();
+		candidateCharacter.add("abcdedfghi");
+		candidateCharacter.add("abcdedfghi");
 		candidateCharacter.add("a");
 		candidateCharacter.add("aB");
 		candidateCharacter.add("aB0 ");
 
 		nullProbability = new Vector<Double>();
+		nullProbability.add(0.2);
 		nullProbability.add(0.5);
 		nullProbability.add(0.2);
 		nullProbability.add(0.1);
@@ -36,7 +43,8 @@ public class Strategy {
 	}
 
 	void changeIndex() {
-		index = (index + 1) % maxInt.size();
+		index = (index + 1) % 2;
+		// index = (index + 1) % maxInt.size();
 	}
 
 	public int getMaxInt() {

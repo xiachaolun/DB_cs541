@@ -49,7 +49,7 @@ public class DBOperation {
 				int v = randomGenerator.nextInt(strt.getMaxInt());
 				tuple.append(Integer.toString(v));
 			} else if (dataType == Types.VARCHAR) {
-				int len = strt.getMaxLength();
+				int len = randomGenerator.nextInt(strt.getMaxLength()) + 1;
 				String v = "'"
 						+ generateString(len, strt.getCandidateCharacter())
 						+ "'";
@@ -109,10 +109,13 @@ public class DBOperation {
 			Statement stmt, String query1, String query2) {
 		// we assume in the H2 db, we have the separating tuples
 		Vector<Vector<String>> res = new Vector<Vector<String>>();
-		for (int i = 0; i < solution.size(); i++) {
-			String table = tables.elementAt(i);
-			res.add(minimizeSingleTable(solution.elementAt(i), table, stmt,
-					query1, query2));
+
+		for (int it = 0; it < 2; it++) {
+			for (int i = 0; i < solution.size(); i++) {
+				String table = tables.elementAt(i);
+				res.add(minimizeSingleTable(solution.elementAt(i), table, stmt,
+						query1, query2));
+			}
 		}
 		return res;
 	}
@@ -152,6 +155,9 @@ public class DBOperation {
 			h++;
 			// Debug.out(h);
 		}
+		// Vector<String> subTuples = new Vector<String>();
+		// for (String tuple : tuples)
+		// subTuples.add(tuple);
 		return tuples;
 	}
 
