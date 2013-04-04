@@ -1,5 +1,6 @@
 package edu.rutgers.cs541;
 
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -162,6 +163,15 @@ public class DBOperation {
 				Debug.out(rs.getString(1));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void saveResultToFile(String path, Statement stmt) {
+		try {
+			// Use another handy H2 command to save the instance
+			stmt.execute("SCRIPT NOSETTINGS TO '" + path + "'");
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}

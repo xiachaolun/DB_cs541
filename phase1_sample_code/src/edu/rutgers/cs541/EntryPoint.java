@@ -140,10 +140,10 @@ public class EntryPoint {
 					// insert 100 tuples for each table
 					int dt = 0;
 					while (true) {
-						if (insertedTuples.size() == 4)
+						if (insertedTuples.size() == 10)
 							break;
 						dt++;
-						if (dt == 30)
+						if (dt == 50)
 							break;
 						StringBuilder tuple = dbp.generateTuple(dataTypes,
 								isNullables, strt);
@@ -161,6 +161,8 @@ public class EntryPoint {
 					solution.add(insertedTuples);
 				}
 			}
+			String outPath = new File(args[3], "first_slution.sql").getPath();
+			dbp.saveResultToFile(outPath, stmt);
 			// dbp.clearAllTables(tableNames, stmt);
 			// minimize the number of effective tuples
 			solution = dbp.minimizeSolution(solution, tableNames, stmt, query1,
@@ -174,20 +176,12 @@ public class EntryPoint {
 			// }
 			// }
 			// use the user-supplied directory (last command line argument)
-			for (String table : tableNames) {
-				Debug.out(table);
-				dbp.printNumberOfTuples(table, stmt);
-			}
-			String outPath = new File(args[3], "1.sql").getPath();
-			try {
-				// Use another handy H2 command to save the instance
-				stmt.execute("SCRIPT NOSETTINGS TO '" + outPath + "'");
-			} catch (SQLException e) {
-				System.out
-						.println("Error: Unable save to load the schema script \""
-								+ args[0] + "\"");
-				e.printStackTrace();
-			}
+			// for (String table : tableNames) {
+			// Debug.out(table);
+			// dbp.printNumberOfTuples(table, stmt);
+			// }
+			outPath = new File(args[3], "optimal_solution.sql").getPath();
+			dbp.saveResultToFile(outPath, stmt);
 		} catch (SQLException e) {
 			System.out.println("Error: Unable to generate instance");
 			e.printStackTrace();
